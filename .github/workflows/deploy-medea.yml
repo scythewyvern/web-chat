@@ -8,9 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: ASzc/change-string-case-action@v5
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_app_name: frontend-sandbox-${{ github.repository_owner.toLowerCase() }}
+          heroku_app_name: frontend-sandbox-${{ github.repository_owner.lowercase }}
           usedocker: true
           appdir: medea
