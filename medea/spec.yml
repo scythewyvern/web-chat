@@ -1,0 +1,32 @@
+kind: Room
+id: call
+spec:
+  pipeline:
+    Alice:
+      kind: Member
+      credentials:
+        plain: helloworld
+      spec:
+        pipeline:
+          publish:
+            kind: WebRtcPublishEndpoint
+            spec:
+              p2p: Always
+          play-responder:
+            kind: WebRtcPlayEndpoint
+            spec:
+              src: "local://call/Bob/publish"
+    Bob:
+      kind: Member
+      credentials:
+        plain: helloworld
+      spec:
+        pipeline:
+          publish:
+            kind: WebRtcPublishEndpoint
+            spec:
+              p2p: Always
+          play-caller:
+            kind: WebRtcPlayEndpoint
+            spec:
+              src: "local://call/Alice/publish"
