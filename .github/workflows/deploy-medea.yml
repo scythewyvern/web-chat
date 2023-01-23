@@ -11,7 +11,7 @@ jobs:
         uses: ASzc/change-string-case-action@v5
         with:
           name: ${{ github.repository_owner }}
-      - id: heroku deploy
+      - id: heroku_deploy
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
