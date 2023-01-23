@@ -11,6 +11,6 @@ jobs:
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_app_name: frontend-sandbox-${{ github.repository_owner }}
+          heroku_app_name: frontend-sandbox-${{ github.repository_owner.toLowerCase() }}
           usedocker: true
           appdir: medea
