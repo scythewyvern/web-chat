@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - id: name
+      - id: string
         uses: ASzc/change-string-case-action@v5
         with:
           name: ${{ github.repository_owner }}
@@ -15,6 +15,6 @@ jobs:
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_app_name: frontend-sandbox-${{ steps.name.outputs.lowercase }}
+          heroku_app_name: frontend-sandbox-${{ steps.string.outputs.lowercase }}
           usedocker: true
           appdir: medea
