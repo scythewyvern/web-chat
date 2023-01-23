@@ -7,15 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - id: string
-        uses: ASzc/change-string-case-action@v5
-        with:
-          name: ${{ github.repository_owner }}
-      - id: heroku_deploy
-        uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_app_name: frontend-sandbox-${{ steps.string.outputs.lowercase }}
+          heroku_app_name: frontend-sandbox-voskanian-gor
           usedocker: true
           appdir: medea
