@@ -1,14 +1,24 @@
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+<script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 
-@Component
-export default class Input extends Vue {
-  // @Prop() private msg!: string;
+interface Input {
+  value: string;
+  placeholder: string;
 }
+
+const emit = defineEmits(["input"]);
+
+defineProps<Input>();
 </script>
 
 <template>
-  <input class="input" type="text" />
+  <input
+    class="input"
+    type="text"
+    :placeholder="placeholder"
+    :value="value"
+    @input="emit('input')"
+  />
 </template>
 
 <style scoped>
