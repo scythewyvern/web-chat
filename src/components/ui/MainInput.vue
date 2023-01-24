@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
-
 interface Input {
   value: string;
   placeholder: string;
@@ -11,10 +9,7 @@ const emit = defineEmits(["input"]);
 defineProps<Input>();
 </script>
 
-
 <template>
-
-
   <input
     class="input"
     type="text"
@@ -22,10 +17,7 @@ defineProps<Input>();
     :value="value"
     @input="emit('input')"
   />
-
-
 </template>
-
 
 <style scoped>
 .input {
@@ -40,5 +32,3 @@ defineProps<Input>();
   width: 100%;
 }
 </style>
-
-

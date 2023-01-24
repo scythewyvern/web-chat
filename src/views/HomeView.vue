@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import JoinForm from '@/components/JoinForm.vue';
-
+import JoinForm from "@/components/JoinForm.vue";
 </script>
 
 <template>
