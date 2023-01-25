@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Input {
   value: string;
+  name: string;
   placeholder: string;
 }
 
@@ -13,6 +14,7 @@ defineProps<Input>();
   <input
     class="input"
     type="text"
+    :name="name"
     :placeholder="placeholder"
     :value="value"
     @input="emit('input')"
