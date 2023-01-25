@@ -12,6 +12,8 @@ const onSubmit = (e: Event) => {
   const roomId = data.get("roomId");
   const username = data.get("username");
 
+  if (!roomId || !username) return;
+
   push(`/room/${roomId}?username=${username}`);
 };
 </script>
