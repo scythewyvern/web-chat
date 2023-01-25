@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import TheWelcome from "../components/TheWelcome.vue";
+import JoinForm from "@/components/JoinForm.vue";
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
+  <main class="main">
+    <JoinForm />
   </main>
 </template>
+
+<style scoped>
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+</style>
