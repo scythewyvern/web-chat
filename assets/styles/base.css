@@ -8,6 +8,8 @@
   --c-accent-hover: #5E66D1;
 
   --border-radius: 8px;
+
+  --frame-gradient: linear-gradient(360deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.00208418) 99.99%, rgba(0, 0, 0, 0) 100%);
 }
 
 /* semantic color variables for this project */

@@ -13,7 +13,7 @@ const router = createRouter({
       path: "/room/:id",
       name: "room",
       component: () => import("../views/RoomView.vue"),
-    }
+    },
   ],
 });
 
