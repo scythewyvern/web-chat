@@ -20,6 +20,7 @@ const controlsStore = useControlsStore();
 </script>
 
 <template>
+  <slot />
   <FrameGradient>
     <div class="overlay">
       <p>{{ username }}</p>
