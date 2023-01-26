@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 interface Input {
-  value: string;
   name: string;
   placeholder: string;
 }
 
-const emit = defineEmits(["input"]);
-
 defineProps<Input>();
+
+const value = ref("");
 </script>
 
 <template>
   <input
     class="input"
-    type="text"
+    v-model="value"
     :name="name"
     :placeholder="placeholder"
-    :value="value"
-    @input="emit('input')"
+    type="text"
   />
 </template>
 

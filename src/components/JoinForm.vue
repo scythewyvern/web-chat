@@ -5,10 +5,14 @@ import MainInput from "./ui/MainInput.vue";
 
 const { push } = useRouter();
 
-const onSubmit = (e) => {
+const onSubmit = (e: Event) => {
+  if (!(e.target instanceof HTMLFormElement)) return;
+
   const data = new FormData(e.target);
   const roomId = data.get("roomId");
   const username = data.get("username");
+
+  if (!roomId || !username) return;
 
   push(`/room/${roomId}?username=${username}`);
 };
@@ -16,8 +20,8 @@ const onSubmit = (e) => {
 
 <template>
   <form class="form" @submit.prevent="onSubmit">
-    <MainInput name="roomId" value="123" placeholder="Room ID" />
-    <MainInput name="username" value="123" placeholder="Username" />
+    <MainInput name="roomId" placeholder="Room ID" />
+    <MainInput name="username" placeholder="Username" />
     <MainButton type="submit">Join</MainButton>
   </form>
 </template>
