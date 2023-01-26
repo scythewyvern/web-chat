@@ -40,6 +40,9 @@ export const useControlsStore = defineStore("counter", () => {
    * @return void
    */
   const handleHungUpClick = (callback: VoidFunction) => {
+    isMicMuted.value = false;
+    isCameraMuted.value = false;
+    
     callback();
   };
 
