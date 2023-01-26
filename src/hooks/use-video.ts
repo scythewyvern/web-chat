@@ -8,10 +8,22 @@ export const useVideoWithControls = () => {
   const controlsStore = useControlsStore();
   const jasonStore = useJasonStore();
 
+  /**
+   * Local video element
+   */
   const localVideo = ref<HTMLVideoElement>();
+  /**
+   * Remote video element
+   */
   const remoteVideo = ref<HTMLVideoElement>();
+  /**
+   * Remote audio element
+   */
   const remoteAudio = ref<HTMLAudioElement>();
 
+  /**
+   * Mic button click handler
+   */
   const onMicClick = async () => {
     const room = jasonStore.roomRef!;
 
@@ -23,6 +35,9 @@ export const useVideoWithControls = () => {
     }
   };
 
+  /**
+   * Camera button click handler
+   */
   const onCameraClick = async () => {
     const room = jasonStore.roomRef!;
 
@@ -34,6 +49,10 @@ export const useVideoWithControls = () => {
     }
   };
 
+  /**
+   * Hung up button click handler
+   * TODO: make correct hangup
+   */
   const onHungUpClick = async () => {
     const room = jasonStore.roomRef!;
 

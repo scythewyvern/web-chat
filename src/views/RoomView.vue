@@ -22,12 +22,15 @@ const {
   onMicClick,
 } = useVideoWithControls();
 
+// Init Jason and local stream on mount and add onNewConnection listener
 onMounted(async () => {
   await initJason(username);
   await initLocalStream(localVideo.value!);
   await onNewConnection(remoteVideo.value!, remoteAudio.value!);
 });
 
+// Close room on unmount
+// TODO: make it correctly
 onBeforeUnmount(() => {
   const jason = jasonStore.jasonRef;
   const room = jasonStore.roomRef;

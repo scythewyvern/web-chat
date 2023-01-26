@@ -16,11 +16,25 @@ import init, {
 const WSS_URL = "wss://frontend-sandbox-voskanian-gor.herokuapp.com/ws";
 
 export const useJasonStore = defineStore("jason", () => {
+  /**
+   * Jason instance
+   */
   const jasonRef = ref<Jason>();
+  /**
+   * Room instance
+   */
   const roomRef = ref<RoomHandle>();
-
+  /**
+   * Remote user name
+   */
   const remoteUserName = ref("");
 
+  /**
+   * Initialize Jason and join to the room
+   * username can be only "Bob" or "Alice"
+   * @param username
+   * @returns Jason and Room instances
+   */
   const initJason = async (username: string) => {
     await init();
 
@@ -43,6 +57,10 @@ export const useJasonStore = defineStore("jason", () => {
     return { jason, room };
   };
 
+  /**
+   * Build constraints for local media
+   * @returns MediaStreamSettings
+   */
   const buildConstraints = async () => {
     const constraints = new MediaStreamSettings();
 
@@ -57,6 +75,11 @@ export const useJasonStore = defineStore("jason", () => {
     return constraints;
   };
 
+  /**
+   * Update local video
+   * @param tracks
+   * @param deviceVideoEl
+   */
   const updateLocalVideo = async (
     tracks: any[],
     deviceVideoEl: HTMLVideoElement
@@ -73,6 +96,11 @@ export const useJasonStore = defineStore("jason", () => {
     }
   };
 
+  /**
+   * Initialize local media stream
+   * @param deviceVideoEl
+   * @returns MediaStreamSettings
+   */
   const initLocalStream = async (
     deviceVideoEl: HTMLVideoElement
   ) => {
@@ -88,6 +116,11 @@ export const useJasonStore = defineStore("jason", () => {
     return constraints;
   };
 
+  /**
+   * Handle new connection
+   * @param deviceVideoEl
+   * @param deviceAudioEl
+   */
   const onNewConnection = async (
     deviceVideoEl: HTMLVideoElement,
     deviceAudioEl: HTMLAudioElement
