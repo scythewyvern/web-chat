@@ -23,6 +23,7 @@
     display: block;
     opacity: var(--opacity);
     transition: var(--opacity-transition);
+    will-change: opacity;
     content: "";
     background: var(--frame-gradient);
     width: 100%;
