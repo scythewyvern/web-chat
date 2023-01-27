@@ -37,13 +37,13 @@ onBeforeUnmount(() => {
     <RoomOverlay>
       <video ref="remoteVideo" class="remote-video" autoplay />
       <audio ref="remoteAudio" autoplay></audio>
-    </RoomOverlay>
-    <video
+      <video
       ref="localVideo"
       v-show="!jasonStore.isLocalVideoMuted"
       class="video"
       autoplay
-    />
+      />
+    </RoomOverlay>
   </main>
 </template>
 
@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 .video {
   height: 230px;
   width: 320px;
-  background: black;
+  background: var(--c-black);
   position: absolute;
   object-fit: cover;
   right: 27px;
@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
 .remote-video {
   height: 100%;
   width: 100%;
-  background: black;
+  background: var(--c-black);
   position: absolute;
   object-fit: cover;
   top: 0;
