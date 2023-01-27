@@ -5,35 +5,30 @@ import CameraIconMuted from "@/components/icons/CameraIconMuted.vue";
 import MicIcon from "@/components/icons/MicIcon.vue";
 import MicIconMuted from "@/components/icons/MicIconMuted.vue";
 import HungUpIcon from "@/components/icons/HungUpIcon.vue";
-import { useControlsStore } from "@/stores/controls";
+import { useJasonStore } from "@/stores/jason";
 
-interface RoomOverlayProps {
-  username: string;
-  onMicClick: () => void;
-  onCameraClick: () => void;
-  onHungUpClick: () => void;
-}
-
-const props = defineProps<RoomOverlayProps>();
-
-const controlsStore = useControlsStore();
+const jasonStore = useJasonStore();
 </script>
 
 <template>
   <slot />
+  <div class="muted">
+    <h1 v-if="jasonStore.isRemoteAudioMuted">audio muted</h1>
+    <h1 v-if="jasonStore.isRemoteVideoMuted">video muted</h1>
+  </div>
   <FrameGradient>
     <div class="overlay">
-      <p>{{ username }}</p>
+      <p>{{ jasonStore.remoteUserName }}</p>
       <div class="controls">
-        <button @click="controlsStore.handleCameraClick(props.onCameraClick)">
-          <CameraIconMuted v-if="controlsStore.isCameraMuted" />
+        <button @click="jasonStore.onVideoMute">
+          <CameraIconMuted v-if="jasonStore.isLocalVideoMuted" />
           <CameraIcon v-else />
         </button>
-        <button @click="controlsStore.handleMicClick(props.onMicClick)">
-          <MicIconMuted v-if="controlsStore.isMicMuted" />
+        <button @click="jasonStore.onAudioMute">
+          <MicIconMuted v-if="jasonStore.isLocalAudioMuted" />
           <MicIcon v-else />
         </button>
-        <button @click="controlsStore.handleHungUpClick(props.onHungUpClick)">
+        <button @click="jasonStore.onHungUp">
           <HungUpIcon />
         </button>
       </div>
@@ -56,5 +51,20 @@ const controlsStore = useControlsStore();
 .controls {
   display: flex;
   gap: 35px;
+}
+
+.muted {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--c-white);
+  z-index: 20;
 }
 </style>
