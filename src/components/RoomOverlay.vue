@@ -1,37 +1,27 @@
 <script setup lang="ts">
-import FrameGradient from "@/components/ui/FrameGradient.vue";
-import CameraIcon from "@/components/icons/CameraIcon.vue";
-import CameraIconMuted from "@/components/icons/CameraIconMuted.vue";
-import MicIcon from "@/components/icons/MicIcon.vue";
-import MicIconMuted from "@/components/icons/MicIconMuted.vue";
-import HungUpIcon from "@/components/icons/HungUpIcon.vue";
 import { useJasonStore } from "@/stores/jason";
+import FrameGradient from "./ui/FrameGradient.vue";
+import RoomControls from "./RoomControls.vue";
 
 const jasonStore = useJasonStore();
 </script>
 
 <template>
   <slot />
-  <div class="muted">
+  <div class="mute-indicators">
     <h1 v-if="jasonStore.isRemoteAudioMuted">audio muted</h1>
     <h1 v-if="jasonStore.isRemoteVideoMuted">video muted</h1>
   </div>
   <FrameGradient>
     <div class="overlay">
       <p>{{ jasonStore.remoteUserName }}</p>
-      <div class="controls">
-        <button @click="jasonStore.onVideoMute">
-          <CameraIconMuted v-if="jasonStore.isLocalVideoMuted" />
-          <CameraIcon v-else />
-        </button>
-        <button @click="jasonStore.onAudioMute">
-          <MicIconMuted v-if="jasonStore.isLocalAudioMuted" />
-          <MicIcon v-else />
-        </button>
-        <button @click="jasonStore.onHungUp">
-          <HungUpIcon />
-        </button>
-      </div>
+      <RoomControls
+        :onAudioClick="jasonStore.onAudioMute"
+        :onVideoClick="jasonStore.onVideoMute"
+        :onHungUpClick="jasonStore.onHungUp"
+        :isLocalAudioMuted="jasonStore.isLocalAudioMuted"
+        :isLocalVideoMuted="jasonStore.isLocalVideoMuted"
+      />
     </div>
   </FrameGradient>
 </template>
@@ -48,12 +38,7 @@ const jasonStore = useJasonStore();
   z-index: 20;
 }
 
-.controls {
-  display: flex;
-  gap: 35px;
-}
-
-.muted {
+.mute-indicators {
   display: flex;
   flex-direction: column;
   justify-content: center;
