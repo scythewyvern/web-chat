@@ -14,8 +14,7 @@ import init, {
 } from "medea-jason";
 import { useRouter } from "vue-router";
 
-const WSS_URL = "wss://frontend-sandbox-voskanian-gor.herokuapp.com/ws";
-
+const WSS_URL = import.meta.env.VITE_WSS_URL;
 
 export const useJasonStore = defineStore("jason", () => {
   const { push } = useRouter();
