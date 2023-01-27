@@ -12,22 +12,75 @@ import init, {
   RemoteMediaTrack,
   RoomHandle,
 } from "medea-jason";
+import { useRouter } from "vue-router";
 
 const WSS_URL = "wss://frontend-sandbox-voskanian-gor.herokuapp.com/ws";
 
+
 export const useJasonStore = defineStore("jason", () => {
-  /**
-   * Jason instance
-   */
+  const { push } = useRouter();
+  const isLocalVideoMuted = ref(false);
+  const isLocalAudioMuted = ref(false);
+  const isRemoteVideoMuted = ref(false);
+  const isRemoteAudioMuted = ref(false);
+
+  const localVideoRef = ref<HTMLVideoElement>();
   const jasonRef = ref<Jason>();
-  /**
-   * Room instance
-   */
   const roomRef = ref<RoomHandle>();
-  /**
-   * Remote user name
-   */
   const remoteUserName = ref("");
+
+  /**
+   * Mute local video
+   * @returns void
+   */
+  const onVideoMute = async () => {
+    const room = roomRef.value;
+
+    if (!room) return;
+
+    if (!isLocalVideoMuted.value) {
+      await room.mute_video();
+    } else {
+      await room.unmute_video();
+      await initLocalStream(localVideoRef.value!);
+    }
+
+    isLocalVideoMuted.value = !isLocalVideoMuted.value;
+  };
+
+  /**
+   * Mute local audio
+   * @returns void
+   */
+  const onAudioMute = async () => {
+    const room = roomRef.value;
+
+    if (!room) return;
+
+    if (!isLocalAudioMuted.value) {
+      await room.mute_audio();
+    } else {
+      await room.unmute_audio();
+      await initLocalStream(localVideoRef.value!);
+    }
+
+    isLocalAudioMuted.value = !isLocalAudioMuted.value;
+  };
+
+  /**
+   * Hang up
+   * @returns void
+   */
+  const onHungUp = async () => {
+    const room = roomRef.value;
+
+    if (!room) return;
+
+    await room.mute_video();
+    await room.mute_audio();
+
+    push("/");
+  };
 
   /**
    * Initialize Jason and join to the room
@@ -84,6 +137,8 @@ export const useJasonStore = defineStore("jason", () => {
     tracks: any[],
     deviceVideoEl: HTMLVideoElement
   ) => {
+    localVideoRef.value = deviceVideoEl;
+
     for (const track of tracks) {
       if (track.kind() === MediaKind.Audio) continue;
 
@@ -101,18 +156,18 @@ export const useJasonStore = defineStore("jason", () => {
    * @param deviceVideoEl
    * @returns MediaStreamSettings
    */
-  const initLocalStream = async (
-    deviceVideoEl: HTMLVideoElement
-  ) => {
-    const jason = jasonRef.value!;
-    
+  const initLocalStream = async (deviceVideoEl: HTMLVideoElement) => {
+    const jason = jasonRef.value;
+
+    if (!jason) return;
+
     const constraints = await buildConstraints();
     const localTracks = await jason
       .media_manager()
       .init_local_tracks(constraints);
 
     await updateLocalVideo(localTracks, deviceVideoEl);
-
+ 
     return constraints;
   };
 
@@ -142,12 +197,28 @@ export const useJasonStore = defineStore("jason", () => {
           const mediaStream = new MediaStream();
           mediaStream.addTrack(track.get_track());
 
+          track.on_muted(() => {
+            isRemoteVideoMuted.value = true;
+          });
+
+          track.on_unmuted(() => {
+            isRemoteVideoMuted.value = false;
+          });
+
           deviceVideoEl.srcObject = mediaStream;
         }
 
         if (track.kind() === MediaKind.Audio) {
           const mediaStream = new MediaStream();
           mediaStream.addTrack(track.get_track());
+
+          track.on_muted(() => {
+            isRemoteAudioMuted.value = true;
+          });
+
+          track.on_unmuted(() => {
+            isRemoteAudioMuted.value = false;
+          });
 
           deviceAudioEl.srcObject = mediaStream;
         }
@@ -162,5 +233,12 @@ export const useJasonStore = defineStore("jason", () => {
     remoteUserName,
     jasonRef,
     roomRef,
+    isLocalVideoMuted,
+    isLocalAudioMuted,
+    isRemoteVideoMuted,
+    isRemoteAudioMuted,
+    onVideoMute,
+    onAudioMute,
+    onHungUp,
   };
 });

@@ -1,32 +1,23 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useControlsStore } from "@/stores/controls";
 import { useJasonStore } from "@/stores/jason";
-import { useVideoWithControls } from "@/hooks/use-video";
 import RoomOverlay from "@/components/RoomOverlay.vue";
 
 const { query } = useRoute();
 const username = query.username as string;
 
-const controlsStore = useControlsStore();
-const jasonStore = useJasonStore();
+const localVideo = ref<HTMLVideoElement>();
+const remoteVideo = ref<HTMLVideoElement>();
+const remoteAudio = ref<HTMLAudioElement>();
 
-const { initJason, initLocalStream, onNewConnection } = jasonStore;
-const {
-  localVideo,
-  remoteVideo,
-  remoteAudio,
-  onCameraClick,
-  onHungUpClick,
-  onMicClick,
-} = useVideoWithControls();
+const jasonStore = useJasonStore();
 
 // Init Jason and local stream on mount and add onNewConnection listener
 onMounted(async () => {
-  await initJason(username);
-  await initLocalStream(localVideo.value!);
-  await onNewConnection(remoteVideo.value!, remoteAudio.value!);
+  await jasonStore.initJason(username);
+  await jasonStore.initLocalStream(localVideo.value!);
+  await jasonStore.onNewConnection(remoteVideo.value!, remoteAudio.value!);
 });
 
 // Close room on unmount
@@ -43,18 +34,13 @@ onBeforeUnmount(() => {
 
 <template>
   <main>
-    <RoomOverlay
-      :onMicClick="onMicClick"
-      :onCameraClick="onCameraClick"
-      :onHungUpClick="onHungUpClick"
-      :username="jasonStore.remoteUserName"
-    >
+    <RoomOverlay>
       <video ref="remoteVideo" class="remote-video" autoplay />
       <audio ref="remoteAudio" autoplay></audio>
     </RoomOverlay>
     <video
       ref="localVideo"
-      v-if="!controlsStore.isCameraMuted"
+      v-show="!jasonStore.isLocalVideoMuted"
       class="video"
       autoplay
     />
