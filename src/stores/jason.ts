@@ -75,9 +75,6 @@ export const useJasonStore = defineStore("jason", () => {
 
     if (!room) return;
 
-    await room.mute_video();
-    await room.mute_audio();
-
     push("/");
   };
 
