@@ -152,7 +152,7 @@ export const useJasonStore = defineStore("jason", () => {
 
   /**
    * Initialize local media stream
-   * @param deviceVideoEl
+   * @param deviceVideoEl - local video element
    * @returns MediaStreamSettings
    */
   const initLocalStream = async (deviceVideoEl: HTMLVideoElement) => {
@@ -172,8 +172,8 @@ export const useJasonStore = defineStore("jason", () => {
 
   /**
    * Handle new connection
-   * @param deviceVideoEl
-   * @param deviceAudioEl
+   * @param deviceVideoEl - local video element
+   * @param deviceAudioEl - local audio element
    */
   const onNewConnection = async (
     deviceVideoEl: HTMLVideoElement,
@@ -181,7 +181,7 @@ export const useJasonStore = defineStore("jason", () => {
   ) => {
     const room = roomRef.value!;
 
-    room.set_local_media_settings(await buildConstraints(), true, true);
+    room.set_local_media_settings(await buildConstraints(), false, true);
 
     room.on_new_connection((connection: ConnectionHandle) => {
       console.log("New connection", connection.get_remote_member_id());
@@ -194,7 +194,9 @@ export const useJasonStore = defineStore("jason", () => {
           track.media_source_kind() === MediaSourceKind.Device
         ) {
           const mediaStream = new MediaStream();
+
           mediaStream.addTrack(track.get_track());
+          deviceVideoEl.srcObject = mediaStream;
 
           track.on_muted(() => {
             isRemoteVideoMuted.value = true;
@@ -203,13 +205,13 @@ export const useJasonStore = defineStore("jason", () => {
           track.on_unmuted(() => {
             isRemoteVideoMuted.value = false;
           });
-
-          deviceVideoEl.srcObject = mediaStream;
         }
 
         if (track.kind() === MediaKind.Audio) {
           const mediaStream = new MediaStream();
+
           mediaStream.addTrack(track.get_track());
+          deviceAudioEl.srcObject = mediaStream;
 
           track.on_muted(() => {
             isRemoteAudioMuted.value = true;
@@ -218,8 +220,6 @@ export const useJasonStore = defineStore("jason", () => {
           track.on_unmuted(() => {
             isRemoteAudioMuted.value = false;
           });
-
-          deviceAudioEl.srcObject = mediaStream;
         }
       });
     });
