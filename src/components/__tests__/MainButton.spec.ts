@@ -9,4 +9,15 @@ describe("MainButton", () => {
     });
     expect(wrapper.text()).toContain("Hello Vitest");
   });
+
+  it("emits click event", () => {
+    const wrapper = mount(MainButton);
+    wrapper.trigger("click");
+    expect(wrapper.emitted("click")).toBeTruthy();
+  });
+
+  it("has a button element", () => {
+    const wrapper = mount(MainButton);
+    expect(wrapper.find("button").exists()).toBe(true);
+  });
 });
