@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { useJasonStore } from "@/stores/jason";
 import RoomOverlay from "@/components/RoomOverlay.vue";
@@ -20,14 +20,13 @@ onMounted(async () => {
   await jasonStore.onNewConnection(remoteVideo.value!, remoteAudio.value!);
 });
 
-// Close room on unmount
-// TODO: make it correctly
-onBeforeUnmount(() => {
+// Dispose room on unmount
+onUnmounted(() => {
   const jason = jasonStore.jasonRef;
   const room = jasonStore.roomRef;
 
   if (room) {
-    jason?.close_room(room);
+    jason?.dispose();
   }
 });
 </script>
