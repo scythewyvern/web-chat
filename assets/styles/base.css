@@ -10,6 +10,9 @@
   --border-radius: 8px;
 
   --frame-gradient: linear-gradient(360deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.00208418) 99.99%, rgba(0, 0, 0, 0) 100%);
+
+  --z-index-1: 10;
+  --z-index-2: 20;
 }
 
 /* semantic color variables for this project */
@@ -19,6 +22,8 @@
   --c-text-secondary: var(--c-gray);
   --c-button: var(--c-accent);
   --c-input-background: var(--c-gray-light);
+
+  --z-index-overlay: var(--z-index-2);
 }
 
 @media (prefers-color-scheme: dark) {

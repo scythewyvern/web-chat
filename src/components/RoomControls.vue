@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import CameraIcon from "./icons/CameraIcon.vue";
-import CameraIconMuted from "./icons/CameraIconMuted.vue";
-import MicIcon from "./icons/MicIcon.vue";
-import MicIconMuted from "./icons/MicIconMuted.vue";
+import VideoIcon from "./icons/VideoIcon.vue";
+import VideoIconMuted from "./icons/VideoIconMuted.vue";
+import AudioIcon from "./icons/AudioIcon.vue";
+import AudioIconMuted from "./icons/AudioIconMuted.vue";
 import HungUpIcon from "./icons/HungUpIcon.vue";
 
 interface RoomControls {
@@ -19,13 +19,13 @@ defineProps<RoomControls>();
 <template>
   <div class="controls">
     <button @click="onVideoClick">
-      <CameraIconMuted v-if="isLocalVideoMuted" />
-      <CameraIcon v-else />
+      <VideoIconMuted v-if="isLocalVideoMuted" />
+      <VideoIcon v-else />
     </button>
 
     <button @click="onAudioClick">
-      <MicIconMuted v-if="isLocalAudioMuted" />
-      <MicIcon v-else />
+      <AudioIconMuted v-if="isLocalAudioMuted" />
+      <AudioIcon v-else />
     </button>
 
     <button @click="onHungUpClick">

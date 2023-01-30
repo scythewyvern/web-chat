@@ -35,7 +35,7 @@ const jasonStore = useJasonStore();
   height: 100%;
   padding: 20px 0 50px;
   color: var(--c-white);
-  z-index: 20;
+  z-index: var(--z-index-overlay);
 }
 
 .mute-indicators {
@@ -47,9 +47,8 @@ const jasonStore = useJasonStore();
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2rem;
+  font-size: 14px;
   font-weight: 700;
   color: var(--c-white);
-  z-index: 20;
 }
 </style>
