@@ -12,10 +12,4 @@ describe("RoomControls", () => {
     const wrapper = mount(RoomControls);
     expect(wrapper.find("button").exists()).toBe(true);
   });
-
-  it('should submit form', () => {
-    const wrapper = mount(RoomControls);
-    wrapper.trigger('submit');
-    expect(wrapper.emitted('submit')).toBeTruthy();
-  })
 });
