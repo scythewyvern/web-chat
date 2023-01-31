@@ -11,6 +11,7 @@ import init, {
   MediaStreamSettings,
   RemoteMediaTrack,
   RoomHandle,
+  LocalMediaTrack,
 } from "medea-jason";
 import { useRouter } from "vue-router";
 
@@ -24,7 +25,13 @@ export const useJasonStore = defineStore("jason", () => {
   const isRemoteAudioMuted = ref(false);
 
   const localVideoRef = ref<HTMLVideoElement>();
+  /**
+   * Jason instance
+   */
   const jasonRef = ref<Jason>();
+  /**
+   * Room instance
+   */
   const roomRef = ref<RoomHandle>();
   const remoteUserName = ref("");
 
@@ -79,10 +86,10 @@ export const useJasonStore = defineStore("jason", () => {
   };
 
   /**
-   * Initialize Jason and join to the room
-   * username can be only "Bob" or "Alice"
+   * Initialize Jason and join to the room.
+   * Username can be only "Bob" or "Alice"
    * @param username
-   * @returns Jason and Room instances
+   * @returns `Jason` and `Room` instances
    */
   const initJason = async (username: string) => {
     await init();
@@ -108,7 +115,7 @@ export const useJasonStore = defineStore("jason", () => {
 
   /**
    * Build constraints for local media
-   * @returns MediaStreamSettings
+   * @returns constraints which type is `MediaStreamSettings`
    */
   const buildConstraints = async () => {
     const constraints = new MediaStreamSettings();
@@ -119,18 +126,18 @@ export const useJasonStore = defineStore("jason", () => {
     video.exact_facing_mode(FacingMode.User);
 
     constraints.audio(audio);
-    constraints.device_video(new DeviceVideoTrackConstraints());
+    constraints.device_video(video);
 
     return constraints;
   };
 
   /**
    * Update local video
-   * @param tracks
-   * @param deviceVideoEl
+   * @param tracks - local media tracks which type is `LocalMediaTrack`
+   * @param deviceVideoEl - local video element
    */
   const updateLocalVideo = async (
-    tracks: any[],
+    tracks: LocalMediaTrack[],
     deviceVideoEl: HTMLVideoElement
   ) => {
     localVideoRef.value = deviceVideoEl;
@@ -150,7 +157,7 @@ export const useJasonStore = defineStore("jason", () => {
   /**
    * Initialize local media stream
    * @param deviceVideoEl - local video element
-   * @returns MediaStreamSettings
+   * @returns constraints type is `MediaStreamSettings`
    */
   const initLocalStream = async (deviceVideoEl: HTMLVideoElement) => {
     const jason = jasonRef.value;
@@ -178,13 +185,15 @@ export const useJasonStore = defineStore("jason", () => {
   ) => {
     const room = roomRef.value!;
 
-    room.set_local_media_settings(await buildConstraints(), false, true);
+    await room.set_local_media_settings(await buildConstraints(), false, false);
 
     room.on_new_connection((connection: ConnectionHandle) => {
       console.log("New connection", connection.get_remote_member_id());
 
+      // set remote user name
       remoteUserName.value = connection.get_remote_member_id();
 
+      // add remote tracks on new connection
       connection.on_remote_track_added((track: RemoteMediaTrack) => {
         if (
           track.kind() === MediaKind.Video &&
