@@ -126,7 +126,7 @@ export const useJasonStore = defineStore("jason", () => {
     video.exact_facing_mode(FacingMode.User);
 
     constraints.audio(audio);
-    constraints.device_video(video);
+    constraints.device_video(new DeviceVideoTrackConstraints());
 
     return constraints;
   };
@@ -228,6 +228,10 @@ export const useJasonStore = defineStore("jason", () => {
           });
         }
       });
+
+      connection.on_close(() => {
+        console.log("Connection closed");
+      })
     });
   };
 
