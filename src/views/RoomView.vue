@@ -35,12 +35,12 @@ onUnmounted(() => {
   <main>
     <RoomOverlay>
       <video ref="remoteVideo" class="remote-video" autoplay />
-      <audio ref="remoteAudio" autoplay></audio>
+      <audio ref="remoteAudio" autoplay />
       <video
-      ref="localVideo"
-      v-show="!jasonStore.isLocalVideoMuted"
-      class="video"
-      autoplay
+        v-show="!jasonStore.isLocalVideoMuted"
+        ref="localVideo"
+        class="video"
+        autoplay
       />
     </RoomOverlay>
   </main>

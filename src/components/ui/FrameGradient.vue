@@ -24,7 +24,7 @@
     opacity: var(--opacity);
     transition: var(--opacity-transition);
     will-change: opacity;
-    content: '';
+    content: "";
     background: var(--frame-gradient);
     width: 100%;
     height: 130px;

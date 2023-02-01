@@ -32,7 +32,7 @@ describe("RoomControls", () => {
 
     await wrapper.find("#video").trigger("click");
     await wrapper.setProps({ isLocalVideoMuted: true });
-   
+
     expect(wrapper.findComponent(VideoIcon).exists()).toBe(false);
     expect(wrapper.findComponent(VideoIconMuted).exists()).toBe(true);
   });
@@ -43,7 +43,7 @@ describe("RoomControls", () => {
 
     await wrapper.find("#audio").trigger("click");
     await wrapper.setProps({ isLocalAudioMuted: true });
-   
+
     expect(wrapper.findComponent(AudioIcon).exists()).toBe(false);
     expect(wrapper.findComponent(AudioIconMuted).exists()).toBe(true);
   });

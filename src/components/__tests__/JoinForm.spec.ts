@@ -14,9 +14,9 @@ describe("JoinForm", () => {
 
     expect(wrapper.html()).toBeTruthy();
 
-    let url = '';
+    let url = "";
 
-    expect(url).toBe('');
+    expect(url).toBe("");
 
     const roomIdInput = wrapper.find<HTMLInputElement>("[name=roomId]");
     const usernameInput = wrapper.find<HTMLInputElement>("[name=username]");
@@ -24,10 +24,10 @@ describe("JoinForm", () => {
     await roomIdInput.setValue("123");
     await usernameInput.setValue("Bob");
 
-    url = `/room/${roomIdInput.element.value}?username=${usernameInput.element.value}`
+    url = `/room/${roomIdInput.element.value}?username=${usernameInput.element.value}`;
 
     expect(wrapper.trigger("submit")).toBeTruthy();
 
-    expect(url).toBe('/room/123?username=Bob');
+    expect(url).toBe("/room/123?username=Bob");
   });
 });
