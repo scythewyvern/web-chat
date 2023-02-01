@@ -4,29 +4,30 @@ import JoinForm from "../JoinForm.vue";
 
 vi.mock("vue-router", () => ({
   useRouter: () => ({
-    push: vi.fn(),
+    push: () => {},
   }),
 }));
 
 describe("JoinForm", () => {
-  const mockRouter = {
-    push: vi.fn((url: string) => url),
-  };
-
-  it("submits form data and calls router push", () => {
+  it("submits form data and calls router push", async () => {
     const wrapper = mount(JoinForm);
-    const spy = vi.spyOn(mockRouter, "push");
 
-    const roomIdInput = wrapper.find<HTMLInputElement>("input[name='roomId']");
-    roomIdInput.element.value = "123";
-    roomIdInput.trigger("input");
+    expect(wrapper.html()).toBeTruthy();
 
-    const usernameInput = wrapper.find<HTMLInputElement>("input[name='username']");
-    usernameInput.element.value = "testuser";
-    usernameInput.trigger("input");
+    let url = '';
 
-    wrapper.find("form").trigger("submit");
+    expect(url).toBe('');
 
-    expect(spy);
+    const roomIdInput = wrapper.find<HTMLInputElement>("[name=roomId]");
+    const usernameInput = wrapper.find<HTMLInputElement>("[name=username]");
+
+    await roomIdInput.setValue("123");
+    await usernameInput.setValue("Bob");
+
+    url = `/room/${roomIdInput.element.value}?username=${usernameInput.element.value}`
+
+    expect(wrapper.trigger("submit")).toBeTruthy();
+
+    expect(url).toBe('/room/123?username=Bob');
   });
 });
