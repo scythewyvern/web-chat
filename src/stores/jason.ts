@@ -170,7 +170,7 @@ export const useJasonStore = defineStore("jason", () => {
       .init_local_tracks(constraints);
 
     await updateLocalVideo(localTracks, deviceVideoEl);
- 
+
     return constraints;
   };
 
@@ -231,7 +231,7 @@ export const useJasonStore = defineStore("jason", () => {
 
       connection.on_close(() => {
         console.log("Connection closed");
-      })
+      });
     });
   };
 
