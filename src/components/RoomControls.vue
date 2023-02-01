@@ -18,12 +18,12 @@ defineProps<RoomControls>();
 
 <template>
   <div class="controls">
-    <button @click="onVideoClick">
-      <VideoIconMuted v-if="isLocalVideoMuted" />
-      <VideoIcon v-else />
+    <button id="video" @click="onVideoClick">
+      <VideoIconMuted id="video-muted" v-if="isLocalVideoMuted" />
+      <VideoIcon id="video-unmuted" v-else />
     </button>
 
-    <button @click="onAudioClick">
+    <button id="audio" @click="onAudioClick">
       <AudioIconMuted v-if="isLocalAudioMuted" />
       <AudioIcon v-else />
     </button>
